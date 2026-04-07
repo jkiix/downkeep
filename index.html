@@ -683,38 +683,38 @@ textarea.form-in{resize:vertical;min-height:95px;line-height:1.65}
   pointer-events:none;
 }
 .qw-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem}
-.qw-title{font-family:var(--font-display);font-size:clamp(1.4rem,2.2vw,1.8rem);font-weight:400;color:var(--cream)}
+.qw-title{font-family:var(--font-display);font-size:clamp(1.8rem,2.8vw,2.4rem);font-weight:400;color:var(--cream)}
 .qw-title em{font-style:italic;color:var(--gold-light)}
 .qw-badge{
   display:inline-flex;align-items:center;gap:0.4rem;
-  padding:0.3rem 0.85rem;border-radius:100px;
+  padding:0.35rem 1rem;border-radius:100px;
   background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.15);
-  font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);font-weight:500;
+  font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-light);font-weight:500;
 }
 .qw-row{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:0.85rem}
 .qw-input{
-  width:100%;padding:0.75rem 1rem;
+  width:100%;padding:0.9rem 1.15rem;
   background:rgba(10,12,15,0.6);border:1px solid rgba(201,169,110,0.1);border-radius:3px;
-  color:var(--cream);font-size:0.85rem;outline:none;
+  color:var(--cream);font-size:1rem;outline:none;
   transition:border-color 0.25s,box-shadow 0.25s;font-family:var(--font-body);font-weight:300;
 }
 .qw-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,0.08)}
 .qw-input::placeholder{color:var(--text-subtle)}
 .qw-services{display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:1.25rem}
 .qw-svc-tag{
-  padding:0.35rem 0.85rem;border-radius:100px;
+  padding:0.45rem 1rem;border-radius:100px;
   background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.1);
-  font-size:0.7rem;color:var(--text-muted);cursor:pointer;
+  font-size:0.85rem;color:var(--text-muted);cursor:pointer;
   transition:all 0.25s;font-weight:400;user-select:none;
 }
 .qw-svc-tag:hover{border-color:var(--gold-border);color:var(--cream)}
 .qw-svc-tag.selected{background:rgba(201,169,110,0.12);border-color:rgba(201,169,110,0.3);color:var(--gold-light)}
 .qw-footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.qw-note{font-size:0.7rem;color:var(--text-subtle);display:flex;align-items:center;gap:0.4rem;font-weight:300}
+.qw-note{font-size:0.82rem;color:var(--text-subtle);display:flex;align-items:center;gap:0.4rem;font-weight:300}
 .qw-success{display:none;text-align:center;padding:2rem 1rem}
 .qw-success iconify-icon{font-size:2.5rem;color:var(--gold);margin-bottom:0.75rem;display:block}
-.qw-success h3{font-family:var(--font-display);font-size:1.4rem;font-weight:400;color:var(--cream);margin-bottom:0.4rem}
-.qw-success p{font-size:0.85rem;color:var(--text-muted);font-weight:300}
+.qw-success h3{font-family:var(--font-display);font-size:1.7rem;font-weight:400;color:var(--cream);margin-bottom:0.4rem}
+.qw-success p{font-size:1rem;color:var(--text-muted);font-weight:300}
 @media(max-width:768px){
   .qw-row{grid-template-columns:1fr}
 }
@@ -1084,7 +1084,7 @@ textarea.form-in{resize:vertical;min-height:95px;line-height:1.65}
               <input type="tel" class="qw-input" id="qwPhone" placeholder="Phone number">
               <input type="text" class="qw-input" id="qwZip" placeholder="Zip code" maxlength="10">
             </div>
-            <p style="font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-light);font-weight:500;margin-bottom:0.55rem">Services interested in</p>
+            <p style="font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);font-weight:500;margin-bottom:0.6rem">Services interested in</p>
             <div class="qw-services" id="qwServices">
               <span class="qw-svc-tag" onclick="toggleSvc(this)">HVAC Filters</span>
               <span class="qw-svc-tag" onclick="toggleSvc(this)">Dryer Vents</span>
