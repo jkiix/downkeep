@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Downkeep — White-Glove Home Maintenance</title>
+<meta name="description" content="Downkeep handles the home maintenance nobody thinks about. Vetted local professionals, fully coordinated, nationwide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0C0F;
+  --bg-elevated:#111418;
+  --bg-card:#161B22;
+  --surface:#1E252F;
+  --gold:#C9A96E;
+  --gold-light:#E2C99A;
+  --gold-dim:#A88848;
+  --gold-muted:rgba(201,169,110,0.1);
+  --gold-border:rgba(201,169,110,0.2);
+  --cream:#F0EBE3;
+  --cream-muted:#C8BFB4;
+  --text:#F0EBE3;
+  --text-muted:#8A857D;
+  --text-subtle:#4E4A44;
+  --nav-bg:rgba(10,12,15,0.92);
+  --ease-expo:cubic-bezier(0.16,1,0.3,1);
+  --ease-quart:cubic-bezier(0.25,1,0.5,1);
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-body:'Jost',system-ui,sans-serif;
+  --shadow-gold:0 0 40px rgba(201,169,110,0.12);
+  --shadow-deep:0 24px 80px rgba(0,0,0,0.6);
+}
+html{scroll-behavior:smooth;font-size:16px;overflow-x:hidden}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea{font-family:inherit}
+.container{max-width:1340px;margin:0 auto;padding:0 clamp(1.5rem,4vw,3.5rem)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-dim)}
+::selection{background:var(--gold-dim);color:#fff}
+
+/* NOISE OVERLAY */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* CURSOR GLOW */
+.cursor-glow{
+  position:fixed;width:700px;height:700px;border-radius:50%;
+  pointer-events:none;z-index:1;
+  background:radial-gradient(circle,rgba(201,169,110,0.04) 0%,transparent 65%);
+  transform:translate(-50%,-50%);will-change:left,top;
+}
+
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:1.4rem 0;
+  transition:background 0.5s,backdrop-filter 0.5s,padding 0.4s,border-color 0.5s;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:var(--nav-bg);
+  backdrop-filter:blur(24px) saturate(1.5);
+  -webkit-backdrop-filter:blur(24px) saturate(1.5);
+  padding:0.85rem 0;
+  border-bottom-color:rgba(201,169,110,0.08);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.nav-logo{
+  font-family:var(--font-display);
+  font-size:1.7rem;font-weight:500;
+  letter-spacing:0.08em;
+  background:linear-gradient(135deg,var(--cream) 0%,var(--gold-light) 60%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  cursor:pointer;
+}
+.nav-links{display:flex;gap:2.5rem;align-items:center}
+.nav-link{
+  font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;
+  color:var(--text-muted);position:relative;transition:color 0.3s;cursor:pointer;
+}
+.nav-link::after{
+  content:'';position:absolute;bottom:-3px;left:0;
+  width:0;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transition:width 0.4s var(--ease-expo);
+}
+.nav-link:hover{color:var(--cream)}
+.nav-link:hover::after{width:100%}
+.nav-cta{
+  padding:0.6rem 1.75rem;
+  font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;
+  border-radius:2px;color:var(--bg);
+  background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  transition:all 0.4s var(--ease-expo);cursor:pointer;
+  box-shadow:0 4px 20px rgba(201,169,110,0.25);
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(201,169,110,0.35)}
+.nav-toggle{display:none;flex-direction:column;gap:5px;padding:0.5rem}
+.nav-toggle span{width:22px;height:1px;background:var(--cream);transition:all 0.3s;display:block}
+.mob-nav{
+  display:none;position:fixed;inset:0;z-index:199;
+  background:rgba(10,12,15,0.97);backdrop-filter:blur(30px);
+  flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
+}
+.mob-nav.open{display:flex}
+.mob-nav .nav-link{font-size:1.3rem;letter-spacing:0.18em}
+
+/* PAGE TABS */
+.page-tabs{
+  position:fixed;top:60px;left:0;right:0;z-index:190;
+  background:rgba(10,12,15,0.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,169,110,0.08);
+  transition:top 0.4s;
+}
+.page-tabs.compact{top:54px}
+.tabs-row{display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs-row::-webkit-scrollbar{display:none}
+.tab-btn{
+  padding:0.8rem 1.75rem;
+  font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;
+  color:var(--text-subtle);
+  border-bottom:1px solid transparent;
+  transition:color 0.3s,border-color 0.3s;
+  white-space:nowrap;cursor:pointer;flex-shrink:0;
+  background:none;border-top:none;border-left:none;border-right:none;
+}
+.tab-btn:hover{color:var(--text-muted)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* CONTENT */
+.page-content{padding-top:108px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes heroZoom{0%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.2)}}
+
+.reveal{opacity:0;transform:translateY(35px);transition:opacity 0.9s var(--ease-expo),transform 0.9s var(--ease-expo)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-left{opacity:0;transform:translateX(-45px);transition:opacity 1s var(--ease-expo),transform 1s var(--ease-expo)}
+.reveal-left.visible{opacity:1;transform:none}
+.reveal-right{opacity:0;transform:translateX(45px);transition:opacity 1s var(--ease-expo),transform 1s var(--ease-expo)}
+.reveal-right.visible{opacity:1;transform:none}
+.reveal-zoom{opacity:0;transform:scale(0.93);transition:opacity 1s var(--ease-expo),transform 1.2s var(--ease-expo)}
+.reveal-zoom.visible{opacity:1;transform:scale(1)}
+.stagger>*{opacity:0;transform:translateY(28px);transition:opacity 0.75s var(--ease-expo),transform 0.75s var(--ease-expo)}
+.stagger.visible>*:nth-child(1){transition-delay:0s}
+.stagger.visible>*:nth-child(2){transition-delay:0.08s}
+.stagger.visible>*:nth-child(3){transition-delay:0.16s}
+.stagger.visible>*:nth-child(4){transition-delay:0.24s}
+.stagger.visible>*:nth-child(5){transition-delay:0.32s}
+.stagger.visible>*:nth-child(6){transition-delay:0.4s}
+.stagger.visible>*{opacity:1;transform:none}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.6rem;padding:0.95rem 2.2rem;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;border-radius:2px;transition:all 0.4s var(--ease-expo);cursor:pointer}
+.btn-gold{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:var(--bg);box-shadow:0 4px 24px rgba(201,169,110,0.25)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(201,169,110,0.35)}
+.btn-outline{border:1px solid var(--gold-border);color:var(--cream);background:rgba(201,169,110,0.04)}
+.btn-outline:hover{border-color:var(--gold);background:rgba(201,169,110,0.1);transform:translateY(-2px);letter-spacing:0.18em}
+.btn-full{width:100%}
+
+/* SECTION */
+.section{padding:clamp(5rem,10vh,8rem) 0;position:relative}
+.section-label{
+  display:inline-flex;align-items:center;gap:0.65rem;
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:500;margin-bottom:1.25rem;
+}
+.section-label::before{content:'';width:28px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);flex-shrink:0}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.2rem,4vw,3.5rem);
+  font-weight:400;line-height:1.1;color:var(--cream);
+}
+.section-title em{font-style:italic;color:var(--gold-light)}
+.gradient-hr{border:none;height:1px;background:linear-gradient(90deg,transparent,var(--gold-border),transparent);margin:0}
+
+/* HERO */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  padding-top:clamp(7rem,14vh,12rem);
+  padding-bottom:clamp(4rem,8vh,7rem);
+  overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg-img{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=85&auto=format') center/cover no-repeat;
+  animation:heroZoom 22s ease-out forwards;
+}
+.hero-bg-overlay{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(10,12,15,0.6) 0%,rgba(10,12,15,0.35) 35%,rgba(10,12,15,0.65) 65%,rgba(10,12,15,0.97) 100%),
+    linear-gradient(90deg,rgba(10,12,15,0.8) 0%,transparent 65%);
+}
+.hero-bg::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:45%;
+  background:linear-gradient(to top,var(--bg) 0%,transparent 100%);z-index:1;
+}
+.hero-content{position:relative;z-index:2;max-width:820px}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.45rem 1.1rem;
+  border:1px solid rgba(201,169,110,0.2);border-radius:100px;
+  font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--gold-light);background:rgba(201,169,110,0.08);
+  backdrop-filter:blur(8px);margin-bottom:1.5rem;
+  opacity:0;animation:fadeUp 1s 0.4s var(--ease-expo) forwards;
+}
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(3rem,7vw,6rem);
+  font-weight:400;line-height:1.02;
+  letter-spacing:-0.01em;color:#F0EBE3;
+  text-shadow:0 2px 30px rgba(0,0,0,0.6);
+  opacity:0;animation:fadeUp 1s 0.6s var(--ease-expo) forwards;
+}
+.hero-title em{
+  font-style:italic;
+  background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-desc{
+  margin-top:1.5rem;
+  font-size:clamp(0.9rem,1.1vw,1rem);
+  line-height:1.75;color:rgba(240,235,227,0.75);
+  max-width:540px;font-weight:300;
+  text-shadow:0 1px 10px rgba(0,0,0,0.5);
+  opacity:0;animation:fadeUp 1s 0.8s var(--ease-expo) forwards;
+}
+.hero-actions{
+  display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap;
+  opacity:0;animation:fadeUp 1s 1s var(--ease-expo) forwards;
+}
+.hero-stats{
+  display:flex;gap:3.5rem;margin-top:2.5rem;
+  padding-top:2rem;border-top:1px solid rgba(201,169,110,0.12);
+  opacity:0;animation:fadeUp 1s 1.2s var(--ease-expo) forwards;
+  flex-wrap:wrap;
+}
+.stat-num{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,3.5vw,2.8rem);font-weight:400;
+  background:linear-gradient(135deg,#F0EBE3,var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;
+}
+.stat-label{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(240,235,227,0.5);margin-top:0.3rem}
+
+/* TRUST BAR */
+.trust-bar{
+  background:var(--bg-elevated);
+  border-top:1px solid rgba(201,169,110,0.06);
+  border-bottom:1px solid rgba(201,169,110,0.06);
+  padding:1.35rem 0;
+}
+.trust-inner{display:flex;align-items:center;justify-content:center;gap:clamp(2rem,4vw,4rem);flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:0.55rem;font-size:0.72rem;letter-spacing:0.06em;color:var(--text-muted);font-weight:500}
+.trust-item iconify-icon{color:var(--gold);font-size:1rem}
+
+/* HOW IT WORKS */
+.how-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;
+  position:relative;
+}
+.how-grid::before{
+  content:'';position:absolute;top:40px;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-border) 20%,var(--gold-border) 80%,transparent);
+}
+.how-step{text-align:center;padding:0 0.5rem}
+.step-num{
+  width:80px;height:80px;margin:0 auto 1.6rem;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  border:1px solid var(--gold-border);
+  background:var(--bg-card);position:relative;z-index:1;
+  box-shadow:0 0 0 4px rgba(201,169,110,0.04);
+}
+.step-num span{font-family:var(--font-display);font-size:1.5rem;font-weight:400;color:var(--gold)}
+.how-step h4{font-family:var(--font-display);font-size:1.15rem;font-weight:400;color:var(--cream);margin-bottom:0.6rem}
+.how-step p{font-size:0.82rem;line-height:1.7;color:var(--text-muted);font-weight:300}
+
+/* SERVICES SECTION */
+.svc-header{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:clamp(3rem,5vw,4rem)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.svc-card{
+  background:var(--bg-card);
+  border:1px solid rgba(201,169,110,0.08);
+  border-radius:4px;
+  padding:clamp(1.75rem,2.5vw,2.25rem);
+  position:relative;overflow:hidden;
+  transition:transform 0.5s var(--ease-expo),box-shadow 0.5s,border-color 0.5s;
+  cursor:default;
+}
+.svc-card::before{
+  content:'';position:absolute;inset:0;border-radius:4px;padding:1px;
+  background:linear-gradient(160deg,rgba(201,169,110,0.2),transparent 45%,transparent 55%,rgba(201,169,110,0.06));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;opacity:0;transition:opacity 0.5s;
+}
+.svc-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.4),var(--shadow-gold);border-color:rgba(201,169,110,0.15)}
+.svc-card:hover::before{opacity:1}
+.svc-card-n{position:absolute;top:1.5rem;right:1.75rem;font-family:var(--font-display);font-size:3rem;font-weight:400;color:rgba(201,169,110,0.05);line-height:1}
+.svc-icon{
+  width:52px;height:52px;display:flex;align-items:center;justify-content:center;
+  border-radius:3px;
+  background:linear-gradient(135deg,rgba(201,169,110,0.12),rgba(201,169,110,0.04));
+  border:1px solid rgba(201,169,110,0.12);
+  color:var(--gold-light);font-size:1.35rem;margin-bottom:1.4rem;
+  position:relative;z-index:1;
+}
+.svc-card h3{font-family:var(--font-display);font-size:1.2rem;font-weight:400;color:var(--cream);margin-bottom:0.6rem;position:relative;z-index:1}
+.svc-card p{font-size:0.82rem;line-height:1.72;color:var(--text-muted);position:relative;z-index:1;font-weight:300}
+.svc-freq{display:inline-flex;align-items:center;gap:0.4rem;margin-top:1rem;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-subtle);position:relative;z-index:1}
+.svc-freq::before{content:'';width:16px;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+
+/* MARQUEE */
+.marquee-sec{
+  padding:1.75rem 0;
+  border-top:1px solid rgba(201,169,110,0.06);
+  border-bottom:1px solid rgba(201,169,110,0.06);
+  overflow:hidden;background:var(--bg-elevated);
+}
+.marquee-track{display:flex;animation:marquee 38s linear infinite;width:max-content}
+.marquee-item{display:flex;align-items:center;gap:2.5rem;padding:0 2.5rem;white-space:nowrap}
+.marquee-item span{
+  font-family:var(--font-display);
+  font-size:clamp(1rem,1.6vw,1.4rem);font-weight:300;
+  color:var(--text-subtle);transition:color 0.3s;letter-spacing:0.04em;
+}
+.marquee-item span:hover{color:var(--cream)}
+.marquee-dot{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dim));flex-shrink:0}
+
+/* PRICING */
+.pricing-header{text-align:center;margin-bottom:clamp(3rem,5vw,5rem)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;align-items:start}
+.price-card{
+  background:var(--bg-card);border:1px solid rgba(201,169,110,0.08);
+  border-radius:4px;padding:2.5rem;
+  position:relative;transition:transform 0.4s var(--ease-expo),box-shadow 0.4s;
+}
+.price-card:hover{transform:translateY(-5px);box-shadow:0 24px 70px rgba(0,0,0,0.4)}
+.price-card.featured{
+  background:linear-gradient(160deg,#181E28 0%,#111620 100%);
+  border-color:rgba(201,169,110,0.25);
+  transform:scale(1.03);
+  box-shadow:0 0 60px rgba(201,169,110,0.08),0 30px 80px rgba(0,0,0,0.5);
+}
+.price-card.featured:hover{transform:scale(1.03) translateY(-5px)}
+.feat-badge{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  color:var(--bg);padding:0.28rem 1.1rem;border-radius:100px;
+  font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;white-space:nowrap;
+}
+.price-tier{font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-subtle);font-weight:500;margin-bottom:1rem}
+.price-amount{font-family:var(--font-display);font-size:3rem;font-weight:400;color:var(--cream);line-height:1;margin-bottom:0.35rem}
+.price-amount small{font-family:var(--font-body);font-size:0.88rem;color:var(--text-muted);font-weight:300}
+.price-card.featured .price-amount{
+  background:linear-gradient(135deg,var(--cream),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.price-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.65;margin-bottom:1.75rem;font-weight:300}
+.price-div{border:none;border-top:1px solid rgba(201,169,110,0.08);margin-bottom:1.75rem}
+.price-feats{display:flex;flex-direction:column;gap:0.85rem;margin-bottom:2rem}
+.price-feat{display:flex;align-items:flex-start;gap:0.7rem;font-size:0.82rem;color:var(--text-muted);font-weight:300}
+.chk-ic{color:var(--gold);font-size:1rem;flex-shrink:0;margin-top:0.05rem}
+
+/* TESTIMONIALS */
+.proof-section{background:var(--bg-elevated);position:relative}
+.proof-section::before{
+  content:'';position:absolute;bottom:-200px;left:-100px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,110,0.03) 0%,transparent 70%);
+  pointer-events:none;
+}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.proof-card{
+  padding:2rem;background:var(--bg-card);
+  border:1px solid rgba(201,169,110,0.08);border-radius:4px;
+  position:relative;transition:transform 0.4s var(--ease-expo),box-shadow 0.4s;
+}
+.proof-card::before{
+  content:'';position:absolute;inset:0;border-radius:4px;padding:1px;
+  background:linear-gradient(160deg,rgba(201,169,110,0.15),transparent 40%,transparent 60%,rgba(201,169,110,0.06));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+.proof-card:hover{transform:translateY(-4px);box-shadow:0 16px 50px rgba(0,0,0,0.4)}
+.proof-stars{display:flex;gap:0.2rem;color:var(--gold);margin-bottom:1.1rem;font-size:0.88rem}
+.proof-quote{font-family:var(--font-display);font-size:1rem;line-height:1.7;color:var(--cream-muted);margin-bottom:1.5rem;font-style:italic;font-weight:300}
+.proof-author{display:flex;align-items:center;gap:0.85rem;padding-top:1.25rem;border-top:1px solid rgba(201,169,110,0.08)}
+.proof-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid rgba(201,169,110,0.2);flex-shrink:0}
+.proof-name{font-size:0.85rem;font-weight:500;color:var(--cream)}
+.proof-loc{font-size:0.72rem;color:var(--text-muted);margin-top:0.1rem;font-weight:300}
+
+/* CTA SECTION */
+.cta-sec{
+  position:relative;
+  padding:clamp(6rem,12vw,10rem) 0;
+  overflow:hidden;
+}
+.cta-bg-img{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80&auto=format') center/cover no-repeat;
+  opacity:0.12;
+}
+.cta-bg-overlay{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,transparent 0%,var(--bg) 72%);
+}
+.cta-inner{position:relative;z-index:1;text-align:center;max-width:700px;margin:0 auto}
+.cta-inner .section-label{justify-content:center}
+.cta-title{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,4rem);font-weight:400;color:var(--cream);line-height:1.08;margin-bottom:1.25rem}
+.cta-title em{font-style:italic;color:var(--gold-light)}
+.cta-desc{font-size:0.95rem;line-height:1.75;color:var(--text-muted);margin-bottom:2.5rem;font-weight:300}
+.cta-zip{display:flex;gap:0.75rem;max-width:460px;margin:0 auto;flex-wrap:wrap}
+.cta-zip-in{
+  flex:1;min-width:180px;padding:0.9rem 1.3rem;
+  background:rgba(201,169,110,0.06);border:1px solid var(--gold-border);
+  border-radius:2px;color:var(--cream);font-size:0.88rem;outline:none;
+  transition:border-color 0.3s;font-family:var(--font-body);font-weight:300;
+}
+.cta-zip-in::placeholder{color:var(--text-subtle)}
+.cta-zip-in:focus{border-color:var(--gold)}
+.cta-note{font-size:0.7rem;color:var(--text-subtle);margin-top:1.1rem;letter-spacing:0.06em}
+
+/* FOOTER */
+.footer{
+  background:var(--bg-elevated);
+  border-top:1px solid rgba(201,169,110,0.08);
+  padding:clamp(4rem,7vw,6rem) 0 2rem;
+}
+.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:clamp(2rem,4vw,4rem);margin-bottom:4rem}
+.footer-logo{
+  font-family:var(--font-display);font-size:1.5rem;font-weight:500;
+  background:linear-gradient(135deg,var(--cream),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:1rem;
+}
+.footer-brand p{font-size:0.82rem;line-height:1.75;color:var(--text-muted);max-width:280px;font-weight:300}
+.footer-social{display:flex;gap:0.65rem;margin-top:1.5rem}
+.footer-social a{
+  width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+  border-radius:3px;border:1px solid rgba(201,169,110,0.12);color:var(--text-muted);font-size:0.95rem;
+  transition:all 0.3s;
+}
+.footer-social a:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,0.06)}
+.footer-col h4{font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;font-weight:500}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.8rem}
+.footer-col a,.footer-col span{font-size:0.82rem;color:var(--text-muted);transition:color 0.25s;cursor:pointer;font-weight:300}
+.footer-col a:hover,.footer-col span:hover{color:var(--cream)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid rgba(201,169,110,0.06);flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-size:0.74rem;color:var(--text-subtle);font-weight:300}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:0.74rem;color:var(--text-subtle);transition:color 0.25s;font-weight:300}
+.footer-links a:hover{color:var(--cream)}
+
+/* INQUIRY PANEL */
+.inq-page{min-height:calc(100vh - 108px);display:grid;grid-template-columns:420px 1fr}
+.inq-left{
+  background:var(--bg-elevated);
+  border-right:1px solid rgba(201,169,110,0.08);
+  padding:clamp(3rem,5vw,5rem) clamp(2rem,4vw,3.5rem);
+  display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;overflow:hidden;
+}
+.inq-left-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80&auto=format') center/cover no-repeat;
+  opacity:0.06;
+}
+.inq-left::before{
+  content:'';position:absolute;right:-80px;top:-80px;
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,110,0.08) 0%,transparent 70%);
+}
+.inq-left::after{
+  content:'';position:absolute;left:-60px;bottom:-60px;
+  width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,110,0.05) 0%,transparent 70%);
+}
+.inq-lc{position:relative;z-index:1}
+.inq-logo{
+  font-family:var(--font-display);font-size:1.5rem;font-weight:500;
+  background:linear-gradient(135deg,var(--cream),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:2.5rem;cursor:pointer;display:inline-block;
+}
+.inq-h{font-family:var(--font-display);font-size:clamp(1.8rem,2.8vw,2.5rem);font-weight:400;color:var(--cream);line-height:1.08;margin-bottom:1rem}
+.inq-h em{font-style:italic;color:var(--gold-light)}
+.inq-sub{font-size:0.85rem;line-height:1.75;color:var(--text-muted);margin-bottom:2.5rem;max-width:320px;font-weight:300}
+.inq-feats{display:flex;flex-direction:column;gap:1.1rem}
+.inq-feat{display:flex;align-items:center;gap:0.85rem;font-size:0.82rem;color:rgba(240,235,227,0.65);font-weight:300}
+.inq-feat iconify-icon{color:var(--gold-light);font-size:1.1rem;flex-shrink:0}
+.inq-bottom{position:relative;z-index:1;margin-top:2.5rem}
+.inq-bottom p{font-size:0.72rem;color:var(--text-subtle);letter-spacing:0.04em;font-weight:300}
+
+/* FORM */
+.inq-right{
+  padding:clamp(3rem,5vw,5rem) clamp(2rem,5vw,4.5rem);
+  overflow-y:auto;display:flex;flex-direction:column;justify-content:flex-start;
+  background:var(--bg);
+}
+.form-title{font-family:var(--font-display);font-size:1.9rem;font-weight:400;color:var(--cream);margin-bottom:0.4rem}
+.form-sub{font-size:0.84rem;color:var(--text-muted);margin-bottom:2.25rem;line-height:1.65;font-weight:300}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem}
+.form-g{margin-bottom:1.1rem}
+.form-g label{
+  display:block;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;
+  font-weight:500;color:var(--gold-light);margin-bottom:0.45rem;
+}
+.form-in{
+  width:100%;padding:0.82rem 1.1rem;
+  background:var(--bg-card);border:1px solid rgba(201,169,110,0.12);border-radius:2px;
+  color:var(--cream);font-size:0.87rem;transition:border-color 0.25s,box-shadow 0.25s;outline:none;
+  font-weight:300;
+}
+.form-in:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,0.08)}
+.form-in::placeholder{color:var(--text-subtle)}
+textarea.form-in{resize:vertical;min-height:95px;line-height:1.65}
+.svc-checks{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:0.2rem}
+.chk-wrap{position:relative}
+.chk-wrap input[type=checkbox]{position:absolute;opacity:0;width:0;height:0}
+.chk-wrap label{
+  display:flex;align-items:center;gap:0.6rem;
+  padding:0.65rem 1rem;
+  background:var(--bg-card);border:1px solid rgba(201,169,110,0.1);
+  border-radius:2px;cursor:pointer;font-size:0.78rem;color:var(--text-muted);
+  transition:all 0.25s;font-weight:300;
+}
+.chk-wrap label iconify-icon{color:var(--text-subtle);font-size:0.9rem;transition:color 0.25s;flex-shrink:0}
+.chk-wrap input:checked+label{background:rgba(201,169,110,0.08);border-color:rgba(201,169,110,0.25);color:var(--cream)}
+.chk-wrap input:checked+label iconify-icon{color:var(--gold)}
+.form-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:0.75rem;flex-wrap:wrap}
+.form-note{font-size:0.72rem;color:var(--text-subtle);font-weight:300}
+.form-success{display:none;text-align:center;padding:4rem 2rem}
+.form-success iconify-icon{font-size:3.5rem;color:var(--gold);margin-bottom:1.25rem;display:block}
+.form-success h3{font-family:var(--font-display);font-size:1.7rem;font-weight:400;color:var(--cream);margin-bottom:0.6rem}
+.form-success p{font-size:0.9rem;color:var(--text-muted);line-height:1.7;font-weight:300}
+
+/* CHATBOT */
+.chat-fab{
+  position:fixed;bottom:2rem;right:2rem;z-index:300;
+  width:60px;height:60px;
+  background:linear-gradient(135deg,#1E252F,#161B22);
+  border:1px solid var(--gold-border);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.4s var(--ease-expo);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 0 0 rgba(201,169,110,0);
+}
+.chat-fab:hover{
+  transform:scale(1.08);border-color:var(--gold);
+  box-shadow:0 12px 40px rgba(0,0,0,0.5),0 0 30px rgba(201,169,110,0.15);
+}
+.chat-fab iconify-icon{font-size:1.5rem;position:absolute;transition:opacity 0.2s,transform 0.2s}
+.chat-fab .ico-chat{color:var(--gold-light);opacity:1;transform:scale(1)}
+.chat-fab .ico-close{color:var(--text-muted);opacity:0;transform:scale(0.5)}
+.chat-fab.open .ico-chat{opacity:0;transform:scale(0.5)}
+.chat-fab.open .ico-close{opacity:1;transform:scale(1)}
+.fab-pulse{
+  position:absolute;top:3px;right:3px;width:12px;height:12px;
+  background:var(--gold);border-radius:50%;border:2px solid var(--bg);
+  animation:pulse 2.5s ease-in-out infinite;
+}
+.chat-win{
+  position:fixed;bottom:6.5rem;right:2rem;z-index:299;
+  width:385px;max-width:calc(100vw - 2rem);
+  background:var(--bg-card);
+  border:1px solid rgba(201,169,110,0.12);
+  border-radius:6px;
+  box-shadow:0 30px 90px rgba(0,0,0,0.7),0 0 60px rgba(201,169,110,0.05);
+  display:flex;flex-direction:column;overflow:hidden;height:520px;
+  transform:scale(0.88) translateY(20px);opacity:0;pointer-events:none;
+  transition:transform 0.4s var(--ease-expo),opacity 0.4s var(--ease-expo);
+  transform-origin:bottom right;
+}
+.chat-win.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+.chat-hdr{
+  background:linear-gradient(135deg,#1A2030,#141820);
+  padding:1.1rem 1.4rem;
+  display:flex;align-items:center;gap:0.85rem;flex-shrink:0;
+  border-bottom:1px solid rgba(201,169,110,0.1);
+}
+.chat-av{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold-dim),var(--gold-light));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;border:1px solid rgba(201,169,110,0.3);
+}
+.chat-hdr-name{font-size:0.88rem;font-weight:500;color:var(--cream)}
+.chat-hdr-status{font-size:0.68rem;color:var(--text-muted);display:flex;align-items:center;gap:0.35rem;margin-top:0.05rem;font-weight:300}
+.online-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:pulse 3s infinite}
+.chat-msgs{flex:1;overflow-y:auto;padding:1.1rem;display:flex;flex-direction:column;gap:0.85rem;scroll-behavior:smooth}
+.chat-msgs::-webkit-scrollbar{width:3px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--surface);border-radius:2px}
+.msg{display:flex;gap:0.55rem;align-items:flex-end;max-width:92%}
+.msg.user{margin-left:auto;flex-direction:row-reverse}
+.msg-av{width:28px;height:28px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--gold-dim),var(--gold));display:flex;align-items:center;justify-content:center;font-size:0.68rem;color:var(--bg);font-weight:600}
+.msg-bub{padding:0.75rem 1rem;border-radius:8px;font-size:0.83rem;line-height:1.55;max-width:260px;font-weight:300}
+.msg.bot .msg-bub{background:var(--bg-elevated);color:var(--cream-muted);border-bottom-left-radius:2px;border:1px solid rgba(201,169,110,0.06)}
+.msg.user .msg-bub{background:linear-gradient(135deg,rgba(201,169,110,0.2),rgba(201,169,110,0.1));color:var(--cream);border-bottom-right-radius:2px;border:1px solid rgba(201,169,110,0.15)}
+.msg-time{font-size:0.62rem;color:var(--text-subtle);flex-shrink:0;padding-bottom:2px;font-weight:300}
+.typing{display:flex;gap:0.55rem;align-items:flex-end;max-width:92%}
+.typing .msg-bub{padding:0.85rem 1rem;display:flex;gap:4px;align-items:center}
+.td{width:7px;height:7px;border-radius:50%;background:var(--text-subtle);animation:tdB 1.4s ease-in-out infinite}
+.td:nth-child(2){animation-delay:0.15s}
+.td:nth-child(3){animation-delay:0.3s}
+@keyframes tdB{0%,60%,100%{transform:translateY(0);opacity:0.5}30%{transform:translateY(-6px);opacity:1}}
+.chat-sugg{display:flex;flex-wrap:wrap;gap:0.45rem;padding:0 1.1rem 0.85rem;flex-shrink:0}
+.sugg-btn{
+  padding:0.35rem 0.85rem;
+  background:var(--bg-elevated);border:1px solid rgba(201,169,110,0.1);
+  border-radius:100px;font-size:0.72rem;color:var(--text-muted);
+  cursor:pointer;transition:all 0.25s;font-family:var(--font-body);font-weight:300;
+}
+.sugg-btn:hover{border-color:var(--gold-border);color:var(--cream);background:rgba(201,169,110,0.06)}
+.chat-inp-row{
+  padding:0.9rem 1.1rem;border-top:1px solid rgba(201,169,110,0.08);
+  display:flex;gap:0.6rem;align-items:flex-end;flex-shrink:0;background:var(--bg-card);
+}
+.chat-inp{
+  flex:1;padding:0.68rem 0.95rem;
+  background:var(--bg-elevated);border:1px solid rgba(201,169,110,0.1);
+  border-radius:4px;color:var(--cream);font-size:0.83rem;outline:none;
+  transition:border-color 0.25s;resize:none;font-family:var(--font-body);
+  line-height:1.5;max-height:90px;overflow-y:auto;font-weight:300;
+}
+.chat-inp:focus{border-color:var(--gold-border)}
+.chat-inp::placeholder{color:var(--text-subtle)}
+.chat-send{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  color:var(--bg);border-radius:4px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;border:none;flex-shrink:0;transition:all 0.25s;font-size:1rem;
+}
+.chat-send:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(201,169,110,0.3)}
+.chat-send:disabled{background:var(--surface);cursor:default;transform:none;box-shadow:none}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .hero-stats{gap:2.5rem}
+  .svc-header{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .pricing-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}
+  .price-card.featured{transform:none}
+  .proof-grid{grid-template-columns:1fr 1fr}
+  .how-grid{grid-template-columns:repeat(2,1fr)}
+  .how-grid::before{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .inq-page{grid-template-columns:1fr}
+  .inq-left{display:none}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .nav-toggle{display:flex}
+  .svc-grid{grid-template-columns:1fr}
+  .proof-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+  .cta-zip{flex-direction:column}
+  .form-row-2{grid-template-columns:1fr}
+  .svc-checks{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero-actions{flex-direction:column}
+  .hero-actions .btn{width:100%;justify-content:center}
+  .hero-stats{gap:2rem}
+  .chat-win{right:1rem;bottom:5.5rem;width:calc(100vw - 2rem)}
+  .form-foot{flex-direction:column;align-items:flex-start}
+  .form-foot .btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <div class="nav-logo" onclick="showTab('inquiry')">Downkeep</div>
+    <div class="nav-links">
+      <span class="nav-link" onclick="showTab('inquiry')">Request Quote</span>
+      <span class="nav-link" onclick="goHome('services')">Services</span>
+      <span class="nav-link" onclick="goHome('pricing')">Pricing</span>
+      <span class="nav-link" onclick="goHome('testimonials')">Reviews</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.85rem">
+      <span class="nav-cta" onclick="showTab('inquiry')">Get a Quote</span>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <span class="nav-link" style="font-size:1.2rem" onclick="showTab('inquiry');closeMob()">Request Quote</span>
+  <span class="nav-link" style="font-size:1.2rem" onclick="goHome('services');closeMob()">Services</span>
+  <span class="nav-link" style="font-size:1.2rem" onclick="goHome('pricing');closeMob()">Pricing</span>
+  <span class="nav-link" style="font-size:1.2rem" onclick="goHome('testimonials');closeMob()">Reviews</span>
+  <span class="btn btn-gold" onclick="showTab('inquiry');closeMob()" style="margin-top:1rem">Get a Quote</span>
+</div>
+
+<!-- PAGE TABS -->
+<div class="page-tabs" id="pageTabs">
+  <div class="tabs-row container" style="padding-top:0;padding-bottom:0">
+    <button class="tab-btn active" id="tb-inquiry" onclick="showTab('inquiry')">📋 Request a Quote</button>
+    <button class="tab-btn" id="tb-home" onclick="showTab('home')">🏠 About Downkeep</button>
+    <button class="tab-btn" onclick="goHome('services')">🔧 Services</button>
+    <button class="tab-btn" onclick="goHome('pricing')">💳 Pricing</button>
+    <button class="tab-btn" onclick="goHome('testimonials')">⭐ Reviews</button>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page-content">
+
+  <!-- ===== INQUIRY TAB ===== -->
+  <div class="tab-panel active" id="panel-inquiry">
+    <div class="inq-page">
+
+      <!-- Left sidebar -->
+      <div class="inq-left">
+        <div class="inq-left-bg"></div>
+        <div class="inq-lc">
+          <div class="inq-logo" onclick="showTab('inquiry')">Downkeep</div>
+          <h2 class="inq-h">Let's protect<br>your <em>home.</em></h2>
+          <p class="inq-sub">A Downkeep coordinator will reach out within one business day to confirm availability and walk you through your options. No commitment required.</p>
+          <div class="inq-feats">
+            <div class="inq-feat"><iconify-icon icon="solar:shield-check-bold"></iconify-icon>All professionals are background-checked &amp; insured</div>
+            <div class="inq-feat"><iconify-icon icon="solar:map-point-bold"></iconify-icon>Nationwide coverage across 48 states</div>
+            <div class="inq-feat"><iconify-icon icon="solar:restart-bold"></iconify-icon>No contracts. Cancel anytime.</div>
+            <div class="inq-feat"><iconify-icon icon="solar:camera-bold"></iconify-icon>Before &amp; after photo reports every visit</div>
+            <div class="inq-feat"><iconify-icon icon="solar:clock-circle-bold"></iconify-icon>Response within one business day</div>
+          </div>
+        </div>
+        <div class="inq-bottom">
+          <p>© 2026 Downkeep · hello@downkeep.com · 1 (800) 396-5337</p>
+        </div>
+      </div>
+
+      <!-- Form right -->
+      <div class="inq-right">
+        <div id="formWrap">
+          <h2 class="form-title">Request a Quote</h2>
+          <p class="form-sub">Tell us about your home and what you need covered.</p>
+
+          <form id="inquiryForm" onsubmit="handleSubmit(event)">
+            <div class="form-row-2">
+              <div class="form-g" style="margin-bottom:0">
+                <label for="fn">First Name</label>
+                <input type="text" id="fn" class="form-in" placeholder="William" required>
+              </div>
+              <div class="form-g" style="margin-bottom:0">
+                <label for="ln">Last Name</label>
+                <input type="text" id="ln" class="form-in" placeholder="Harrington" required>
+              </div>
+            </div>
+            <div class="form-row-2" style="margin-top:1.1rem">
+              <div class="form-g" style="margin-bottom:0">
+                <label for="em">Email Address</label>
+                <input type="email" id="em" class="form-in" placeholder="william@email.com" required>
+              </div>
+              <div class="form-g" style="margin-bottom:0">
+                <label for="ph">Phone Number</label>
+                <input type="tel" id="ph" class="form-in" placeholder="(555) 000-0000" required>
+              </div>
+            </div>
+            <div class="form-g" style="margin-top:1.1rem">
+              <label for="zip">Zip Code</label>
+              <input type="text" id="zip" class="form-in" placeholder="10605" maxlength="10" required>
+            </div>
+            <div class="form-g">
+              <label>Services Needed <span style="color:var(--text-subtle);text-transform:none;letter-spacing:0;font-size:0.78rem;font-weight:300">(select all that apply)</span></label>
+              <div class="svc-checks">
+                <div class="chk-wrap"><input type="checkbox" id="s1" value="HVAC Filters"><label for="s1"><iconify-icon icon="solar:wind-bold"></iconify-icon>HVAC Filters</label></div>
+                <div class="chk-wrap"><input type="checkbox" id="s2" value="Dryer Vent Cleaning"><label for="s2"><iconify-icon icon="solar:fire-bold"></iconify-icon>Dryer Vents</label></div>
+                <div class="chk-wrap"><input type="checkbox" id="s3" value="Water Heater Flush"><label for="s3"><iconify-icon icon="solar:drop-bold"></iconify-icon>Water Heater</label></div>
+                <div class="chk-wrap"><input type="checkbox" id="s4" value="Smoke Detectors"><label for="s4"><iconify-icon icon="solar:bell-bold"></iconify-icon>Smoke Detectors</label></div>
+                <div class="chk-wrap"><input type="checkbox" id="s5" value="Plumbing Inspection"><label for="s5"><iconify-icon icon="solar:waterdrops-bold"></iconify-icon>Plumbing Check</label></div>
+                <div class="chk-wrap"><input type="checkbox" id="s6" value="Fridge Coil Cleaning"><label for="s6"><iconify-icon icon="solar:snowflake-bold"></iconify-icon>Fridge Coils</label></div>
+                <div class="chk-wrap"><input type="checkbox" id="s7" value="Gutter Cleaning"><label for="s7"><iconify-icon icon="solar:home-bold"></iconify-icon>Gutter Cleaning</label></div>
+                <div class="chk-wrap"><input type="checkbox" id="s8" value="Generator Service"><label for="s8"><iconify-icon icon="solar:bolt-bold"></iconify-icon>Generator</label></div>
+              </div>
+            </div>
+            <div class="form-g">
+              <label for="msg">Additional Notes</label>
+              <textarea id="msg" class="form-in" placeholder="Tell us about your home — square footage, age, specific concerns, or anything we should know..."></textarea>
+            </div>
+            <div class="form-foot">
+              <p class="form-note">🔒 Your information is never shared.</p>
+              <button type="submit" class="btn btn-gold" id="submitBtn">
+                Send Request <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+          <iconify-icon icon="solar:check-circle-bold"></iconify-icon>
+          <h3>Request Received</h3>
+          <p>A Downkeep coordinator will reach out within one business day to confirm your services and arrange your first visit.</p>
+          <button class="btn btn-outline" style="margin-top:1.75rem" onclick="resetForm()">Submit Another Request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HOME TAB ===== -->
+  <div class="tab-panel" id="panel-home">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="hero-bg-img"></div>
+        <div class="hero-bg-overlay"></div>
+      </div>
+      <div class="container hero-content">
+        <div class="hero-tag">
+          <iconify-icon icon="solar:shield-check-bold"></iconify-icon>
+          White-Glove Home Maintenance
+        </div>
+        <h1 class="hero-title">
+          The maintenance<br>nobody thinks about —<br>until something <em>breaks.</em>
+        </h1>
+        <p class="hero-desc">Downkeep coordinates vetted local professionals to handle the essential, recurring home maintenance that slips through the cracks. One membership. Everything handled.</p>
+        <div class="hero-actions">
+          <button class="btn btn-gold" onclick="showTab('inquiry')">
+            Get a Quote <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </button>
+          <button class="btn btn-outline" onclick="scrollTo2('how-it-works')">How It Works</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="stat-num">1,200+</div><div class="stat-label">Homes Maintained</div></div>
+          <div><div class="stat-num">48</div><div class="stat-label">States Covered</div></div>
+          <div><div class="stat-num">98%</div><div class="stat-label">Satisfaction Rate</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="trust-bar">
+      <div class="container trust-inner">
+        <div class="trust-item"><iconify-icon icon="solar:verified-check-bold"></iconify-icon>Background-Checked Professionals</div>
+        <div class="trust-item"><iconify-icon icon="solar:shield-bold"></iconify-icon>Fully Insured &amp; Bonded</div>
+        <div class="trust-item"><iconify-icon icon="solar:map-point-bold"></iconify-icon>Available Nationwide</div>
+        <div class="trust-item"><iconify-icon icon="solar:restart-bold"></iconify-icon>Cancel Anytime</div>
+        <div class="trust-item"><iconify-icon icon="solar:star-bold"></iconify-icon>4.9 / 5 Average Rating</div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="reveal" style="text-align:center;margin-bottom:clamp(3rem,5vw,5rem)">
+          <div class="section-label" style="justify-content:center">Simple Process</div>
+          <h2 class="section-title">Up and running in <em>minutes</em></h2>
+        </div>
+        <div class="how-grid stagger">
+          <div class="how-step">
+            <div class="step-num"><span>01</span></div>
+            <h4>Tell Us About Your Home</h4>
+            <p>Square footage, age of home, and zip code. We build your custom maintenance calendar from there.</p>
+          </div>
+          <div class="how-step">
+            <div class="step-num"><span>02</span></div>
+            <h4>We Match Local Pros</h4>
+            <p>We identify vetted, insured service providers in your area who meet our white-glove standards.</p>
+          </div>
+          <div class="how-step">
+            <div class="step-num"><span>03</span></div>
+            <h4>We Coordinate Everything</h4>
+            <p>Scheduling, reminders, and confirmations handled entirely by us. You don't lift a finger.</p>
+          </div>
+          <div class="how-step">
+            <div class="step-num"><span>04</span></div>
+            <h4>Relax. It's Done.</h4>
+            <p>Receive completion reports with before &amp; after photos after every visit. Peace of mind, documented.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="gradient-hr">
+
+    <!-- SERVICES -->
+    <section class="section" id="services" style="background:var(--bg-elevated)">
+      <div class="container">
+        <div class="svc-header">
+          <div class="reveal-left">
+            <div class="section-label">What We Handle</div>
+            <h2 class="section-title">The essentials that<br>protect your <em>home</em></h2>
+          </div>
+          <div class="reveal-right" style="display:flex;align-items:flex-end">
+            <p style="font-size:0.9rem;line-height:1.8;color:var(--text-muted);font-weight:300">These aren't glamorous — that's the point. They're the necessary, recurring tasks homeowners keep putting off until a small issue becomes an expensive problem.</p>
+          </div>
+        </div>
+        <div class="svc-grid stagger">
+          <div class="svc-card"><div class="svc-card-n">01</div><div class="svc-icon"><iconify-icon icon="solar:wind-bold"></iconify-icon></div><h3>HVAC Filter Replacement</h3><p>Dirty filters reduce efficiency and air quality. We swap them on schedule so you never have to think about it.</p><div class="svc-freq">Every 60–90 days</div></div>
+          <div class="svc-card"><div class="svc-card-n">02</div><div class="svc-icon"><iconify-icon icon="solar:fire-bold"></iconify-icon></div><h3>Dryer Vent Cleaning</h3><p>The leading cause of house fires. A clogged vent takes 20 minutes to clean and years off your worry.</p><div class="svc-freq">Annually</div></div>
+          <div class="svc-card"><div class="svc-card-n">03</div><div class="svc-icon"><iconify-icon icon="solar:drop-bold"></iconify-icon></div><h3>Water Heater Flush</h3><p>Sediment buildup reduces efficiency and shortens lifespan. Annual flushing extends your unit by years.</p><div class="svc-freq">Annually</div></div>
+          <div class="svc-card"><div class="svc-card-n">04</div><div class="svc-icon"><iconify-icon icon="solar:bell-bold"></iconify-icon></div><h3>Smoke &amp; CO Detector Check</h3><p>Battery replacement, sensor testing, and code-compliance verification across all units in your home.</p><div class="svc-freq">Bi-annually</div></div>
+          <div class="svc-card"><div class="svc-card-n">05</div><div class="svc-icon"><iconify-icon icon="solar:waterdrops-bold"></iconify-icon></div><h3>Plumbing Inspection</h3><p>Under-sink leak checks, aerator cleaning, and water pressure testing to catch issues before they escalate.</p><div class="svc-freq">Annually</div></div>
+          <div class="svc-card"><div class="svc-card-n">06</div><div class="svc-icon"><iconify-icon icon="solar:snowflake-bold"></iconify-icon></div><h3>Refrigerator Coil Cleaning</h3><p>Dusty coils force your fridge to work harder and fail sooner. A quick clean saves a costly replacement.</p><div class="svc-freq">Annually</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-sec">
+      <div class="marquee-track">
+        <div class="marquee-item"><span>HVAC Filters</span><div class="marquee-dot"></div><span>Dryer Vent Cleaning</span><div class="marquee-dot"></div><span>Water Heater Flush</span><div class="marquee-dot"></div><span>Smoke Detectors</span><div class="marquee-dot"></div><span>Plumbing Checks</span><div class="marquee-dot"></div><span>Coil Cleaning</span><div class="marquee-dot"></div><span>Gutter Service</span><div class="marquee-dot"></div><span>Generator Maintenance</span><div class="marquee-dot"></div></div>
+        <div class="marquee-item"><span>HVAC Filters</span><div class="marquee-dot"></div><span>Dryer Vent Cleaning</span><div class="marquee-dot"></div><span>Water Heater Flush</span><div class="marquee-dot"></div><span>Smoke Detectors</span><div class="marquee-dot"></div><span>Plumbing Checks</span><div class="marquee-dot"></div><span>Coil Cleaning</span><div class="marquee-dot"></div><span>Gutter Service</span><div class="marquee-dot"></div><span>Generator Maintenance</span><div class="marquee-dot"></div></div>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="pricing-header reveal">
+          <div class="section-label" style="justify-content:center">Transparent Pricing</div>
+          <h2 class="section-title">Flat rate. No surprises. <em>Ever.</em></h2>
+          <p style="max-width:480px;margin:1rem auto 0;font-size:0.9rem;line-height:1.75;color:var(--text-muted);font-weight:300">One number covers every service. No per-visit fees, no upsells, nothing hidden on your statement.</p>
+        </div>
+        <div class="pricing-grid stagger">
+          <div class="price-card">
+            <div class="price-tier">Essential</div>
+            <div class="price-amount">$99 <small>/ mo</small></div>
+            <div class="price-desc">For smaller homes that need the basics covered, done right and on schedule.</div>
+            <hr class="price-div">
+            <div class="price-feats">
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>HVAC filter replacement (quarterly)</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Smoke &amp; CO detector checks</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Dryer vent cleaning (annual)</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Photo completion reports</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Cancel anytime</div>
+            </div>
+            <button class="btn btn-outline btn-full" onclick="showTab('inquiry')">Choose Essential</button>
+          </div>
+          <div class="price-card featured">
+            <div class="feat-badge">Most Popular</div>
+            <div class="price-tier">Premier</div>
+            <div class="price-amount">$199 <small>/ mo</small></div>
+            <div class="price-desc">The complete program for discerning homeowners who want nothing to slip through.</div>
+            <hr class="price-div">
+            <div class="price-feats">
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Everything in Essential</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Water heater flush (annual)</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Plumbing inspection</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Refrigerator coil cleaning</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Priority scheduling</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Dedicated account manager</div>
+            </div>
+            <button class="btn btn-gold btn-full" onclick="showTab('inquiry')">Choose Premier</button>
+          </div>
+          <div class="price-card">
+            <div class="price-tier">Estate</div>
+            <div class="price-amount">$349 <small>/ mo</small></div>
+            <div class="price-desc">For multi-property owners who need full-service coordination across every home.</div>
+            <hr class="price-div">
+            <div class="price-feats">
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Everything in Premier</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Up to 3 properties</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Generator inspection &amp; service</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Seasonal home transition</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Home inventory documentation</div>
+              <div class="price-feat"><iconify-icon icon="solar:check-circle-bold" class="chk-ic"></iconify-icon>Concierge on-call line</div>
+            </div>
+            <button class="btn btn-outline btn-full" onclick="showTab('inquiry')">Choose Estate</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section proof-section" id="testimonials">
+      <div class="container">
+        <div class="reveal" style="margin-bottom:clamp(3rem,5vw,4.5rem)">
+          <div class="section-label">Client Voices</div>
+          <h2 class="section-title">Conversations &amp; <em>reflections</em></h2>
+        </div>
+        <div class="proof-grid stagger">
+          <div class="proof-card">
+            <div class="proof-stars"><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon></div>
+            <p class="proof-quote">"I've owned my home for 22 years and never felt more confident that things are actually being maintained. Downkeep is the kind of service I didn't know existed."</p>
+            <div class="proof-author"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80" alt="Richard M." class="proof-avatar"><div><div class="proof-name">Richard M.</div><div class="proof-loc">Greenwich, CT · Premier Member</div></div></div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-stars"><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon></div>
+            <p class="proof-quote">"We split time between Connecticut and Naples. Downkeep handles both properties without us thinking about it at all. For us, that's worth every dollar."</p>
+            <div class="proof-author"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80" alt="Patricia L." class="proof-avatar"><div><div class="proof-name">Patricia L.</div><div class="proof-loc">Naples, FL · Estate Member</div></div></div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-stars"><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon><iconify-icon icon="solar:star-bold"></iconify-icon></div>
+            <p class="proof-quote">"The before/after photos after every visit are a nice touch. My previous maintenance service documented nothing. This feels like a completely different category."</p>
+            <div class="proof-author"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&q=80" alt="James H." class="proof-avatar"><div><div class="proof-name">James H.</div><div class="proof-loc">Scottsdale, AZ · Premier Member</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-sec">
+      <div class="cta-bg-img"></div>
+      <div class="cta-bg-overlay"></div>
+      <div class="container cta-inner reveal-zoom">
+        <div class="section-label">Ready to Begin</div>
+        <h2 class="cta-title">Your home, finally<br><em>properly maintained.</em></h2>
+        <p class="cta-desc">Enter your zip code to check availability in your area. No commitment required.</p>
+        <div class="cta-zip">
+          <input type="text" class="cta-zip-in" placeholder="Enter your zip code" maxlength="10">
+          <button class="btn btn-gold" onclick="showTab('inquiry')">Check Availability</button>
+        </div>
+        <p class="cta-note">Available in 48 states · 2,400+ vetted professionals · Cancel anytime</p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo">Downkeep</div>
+            <p>White-glove home maintenance coordination for discerning homeowners. One membership. Everything handled.</p>
+            <div class="footer-social">
+              <a href="#" aria-label="Facebook"><iconify-icon icon="fa6-brands:facebook-f"></iconify-icon></a>
+              <a href="#" aria-label="Instagram"><iconify-icon icon="fa6-brands:instagram"></iconify-icon></a>
+              <a href="#" aria-label="LinkedIn"><iconify-icon icon="fa6-brands:linkedin-in"></iconify-icon></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li><span onclick="goHome('services')">HVAC Filters</span></li>
+              <li><span onclick="goHome('services')">Dryer Vents</span></li>
+              <li><span onclick="goHome('services')">Water Heaters</span></li>
+              <li><span onclick="goHome('services')">Plumbing</span></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><span onclick="showTab('home')">About Us</span></li>
+              <li><span onclick="goHome('how-it-works')">How It Works</span></li>
+              <li><a href="#">Partner With Us</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:hello@downkeep.com">hello@downkeep.com</a></li>
+              <li><a href="tel:18003965337">1 (800) 396-5337</a></li>
+              <li><span onclick="showTab('inquiry')">Get a Quote</span></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 Downkeep. All rights reserved.</p>
+          <div class="footer-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- end panel-home -->
+</div><!-- end page-content -->
+
+<!-- CHATBOT FAB -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Chat with us">
+  <iconify-icon icon="solar:chat-round-dots-bold" class="ico-chat"></iconify-icon>
+  <iconify-icon icon="solar:close-circle-bold" class="ico-close"></iconify-icon>
+  <div class="fab-pulse"></div>
+</button>
+
+<!-- CHATBOT WINDOW -->
+<div class="chat-win" id="chatWin">
+  <div class="chat-hdr">
+    <div class="chat-av">🏠</div>
+    <div>
+      <div class="chat-hdr-name">Downkeep Assistant</div>
+      <div class="chat-hdr-status"><div class="online-dot"></div>Online now · Powered by AI</div>
+    </div>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="chat-sugg" id="chatSugg">
+    <button class="sugg-btn" onclick="useSugg(this)">What services do you offer?</button>
+    <button class="sugg-btn" onclick="useSugg(this)">How does pricing work?</button>
+    <button class="sugg-btn" onclick="useSugg(this)">Are you in my area?</button>
+    <button class="sugg-btn" onclick="useSugg(this)">How do I get started?</button>
+  </div>
+  <div class="chat-inp-row">
+    <textarea class="chat-inp" id="chatInp" placeholder="Ask anything about Downkeep..." rows="1" onkeydown="chatKey(event)" oninput="autoResize(this)"></textarea>
+    <button class="chat-send" id="chatSend" onclick="sendMsg()">
+      <iconify-icon icon="solar:arrow-up-bold"></iconify-icon>
+    </button>
+  </div>
+</div>
+
+<script>
+// CURSOR GLOW
+const glow = document.getElementById('cursorGlow');
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function animGlow(){ glow.style.left=`${mx}px`; glow.style.top=`${my}px`; requestAnimationFrame(animGlow); })();
+
+// TABS
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('panel-'+name);
+  if(panel){ panel.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+  const tb = document.getElementById('tb-'+name);
+  if(tb) tb.classList.add('active');
+  setTimeout(initReveal, 120);
+}
+function goHome(id){ showTab('home'); setTimeout(()=>scrollTo2(id), 200); }
+function scrollTo2(id){ const el=document.getElementById(id); if(el){ const top=el.getBoundingClientRect().top+window.scrollY-115; window.scrollTo({top,behavior:'smooth'}); }}
+
+// NAV SCROLL
+const nav = document.getElementById('nav');
+const tabs = document.getElementById('pageTabs');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+  tabs.classList.toggle('compact', window.scrollY > 40);
+});
+
+// MOBILE NAV
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('mobNav').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobNav').classList.contains('open') ? 'hidden' : '';
+});
+function closeMob(){ document.getElementById('mobNav').classList.remove('open'); document.body.style.overflow=''; }
+
+// REVEAL
+function initReveal(){
+  const els = document.querySelectorAll('.tab-panel.active .reveal,.tab-panel.active .reveal-left,.tab-panel.active .reveal-right,.tab-panel.active .reveal-zoom,.tab-panel.active .stagger');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(el => obs.observe(el));
+}
+initReveal();
+
+// FORM
+function handleSubmit(e){
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.innerHTML='<iconify-icon icon="solar:spinner-bold" style="animation:spin 0.8s linear infinite"></iconify-icon> Sending...';
+  btn.disabled=true;
+  setTimeout(()=>{ document.getElementById('formWrap').style.display='none'; document.getElementById('formSuccess').style.display='block'; }, 1600);
+}
+function resetForm(){
+  document.getElementById('inquiryForm').reset();
+  document.getElementById('formWrap').style.display='block';
+  document.getElementById('formSuccess').style.display='none';
+  const btn = document.getElementById('submitBtn');
+  btn.innerHTML='Send Request <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>';
+  btn.disabled=false;
+}
+
+// SERVICE CARD HOVER GLOW
+document.querySelectorAll('.svc-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', `${e.clientX-r.left}px`);
+    card.style.setProperty('--my', `${e.clientY-r.top}px`);
+  });
+});
+
+// CHATBOT
+let chatOpen=false, history=[], busy=false;
+const SYS=`You are a concierge-level customer service assistant for Downkeep, a white-glove home maintenance coordination company serving affluent homeowners aged 45-75.
+
+About Downkeep:
+- Coordinates vetted local professionals for essential recurring home maintenance nationwide
+- Services: HVAC filter replacement (every 60-90 days), dryer vent cleaning (annually), water heater flush (annually), smoke & CO detector checks (bi-annually), plumbing inspection (annually), refrigerator coil cleaning (annually), gutter cleaning, generator service
+- Plans: Essential $99/mo, Premier $199/mo (most popular), Estate $349/mo (up to 3 properties + generator + seasonal home transition + home inventory + concierge line)
+- 48 states, 2,400+ vetted professionals
+- All pros: background-checked, insured, bonded
+- Before & after photo reports after every visit
+- No contracts, cancel anytime
+- 1 business day response after inquiry
+
+Tone: Warm, professional, understated luxury. Like a concierge at a fine hotel — genuinely helpful, never pushy, knowledgeable. Keep responses to 2-3 sentences unless detail is specifically requested. When appropriate, gently guide toward filling out the inquiry form.`;
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chatFab').classList.toggle('open',chatOpen);
+  document.getElementById('chatWin').classList.toggle('open',chatOpen);
+  if(chatOpen && history.length===0)
+    setTimeout(()=>addBot("Good evening. I'm the Downkeep assistant — happy to answer any questions about our services, pricing, or coverage. How can I help?"), 350);
+}
+function addBot(text){
+  const c=document.getElementById('chatMsgs');
+  const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div'); d.className='msg bot';
+  d.style.animation='fadeUp 0.35s var(--ease-expo) both';
+  d.innerHTML=`<div class="msg-av">DK</div><div><div class="msg-bub">${text}</div></div><span class="msg-time">${t}</span>`;
+  c.appendChild(d); c.scrollTop=c.scrollHeight;
+}
+function addUser(text){
+  const c=document.getElementById('chatMsgs');
+  const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div'); d.className='msg user';
+  d.style.animation='fadeUp 0.3s var(--ease-expo) both';
+  d.innerHTML=`<span class="msg-time">${t}</span><div><div class="msg-bub">${text}</div></div>`;
+  c.appendChild(d); c.scrollTop=c.scrollHeight;
+}
+function showTyping(){
+  const c=document.getElementById('chatMsgs');
+  const d=document.createElement('div'); d.className='typing'; d.id='typingEl';
+  d.innerHTML=`<div class="msg-av">DK</div><div class="msg-bub"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
+  c.appendChild(d); c.scrollTop=c.scrollHeight;
+}
+function removeTyping(){ const el=document.getElementById('typingEl'); if(el) el.remove(); }
+function hideSugg(){ document.getElementById('chatSugg').style.display='none'; }
+async function sendMsg(){
+  const inp=document.getElementById('chatInp');
+  const text=inp.value.trim();
+  if(!text||busy) return;
+  inp.value=''; inp.style.height='auto'; hideSugg();
+  addUser(text); history.push({role:'user',content:text});
+  busy=true; document.getElementById('chatSend').disabled=true; showTyping();
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:history})
+    });
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||"I'm having trouble connecting. Please call us at 1 (800) 396-5337.";
+    history.push({role:'assistant',content:reply});
+    removeTyping(); addBot(reply);
+  }catch(err){
+    removeTyping();
+    addBot("I'm having trouble connecting at the moment. Please reach us at hello@downkeep.com or 1 (800) 396-5337.");
+  }
+  busy=false; document.getElementById('chatSend').disabled=false;
+}
+function useSugg(btn){ document.getElementById('chatInp').value=btn.textContent; sendMsg(); }
+function chatKey(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMsg(); } }
+function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,90)+'px'; }
+
+// INIT
+showTab('inquiry');
+</script>
+</body>
+</html>
