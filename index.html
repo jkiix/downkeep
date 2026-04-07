@@ -206,7 +206,7 @@ body::before{
 .hero-bg{position:absolute;inset:0;z-index:0}
 .hero-bg-img{
   position:absolute;inset:0;
-  background:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=85&auto=format') center/cover no-repeat;
+  background:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=85&auto=format') center/cover no-repeat;
   animation:heroZoom 22s ease-out forwards;
 }
 .hero-bg-overlay{
@@ -425,7 +425,7 @@ body::before{
 }
 .cta-bg-img{
   position:absolute;inset:0;
-  background:url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80&auto=format') center/cover no-repeat;
+  background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80&auto=format') center/cover no-repeat;
   opacity:0.12;
 }
 .cta-bg-overlay{
@@ -490,7 +490,7 @@ body::before{
 }
 .inq-left-bg{
   position:absolute;inset:0;
-  background:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80&auto=format') center/cover no-repeat;
+  background:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80&auto=format') center/cover no-repeat;
   opacity:0.06;
 }
 .inq-left::before{
@@ -660,6 +660,71 @@ textarea.form-in{resize:vertical;min-height:95px;line-height:1.65}
 .chat-send:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(201,169,110,0.3)}
 .chat-send:disabled{background:var(--surface);cursor:default;transform:none;box-shadow:none}
 
+/* IMAGE SHOWCASE */
+.showcase{padding:clamp(4rem,8vh,6rem) 0;position:relative;overflow:hidden}
+.showcase-grid{
+  display:grid;
+  grid-template-columns:1.2fr 0.8fr 1fr;
+  grid-template-rows:280px 280px;
+  gap:1rem;
+}
+.showcase-img{
+  position:relative;overflow:hidden;border-radius:4px;
+  border:1px solid rgba(201,169,110,0.08);
+}
+.showcase-img img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.8s var(--ease-expo),filter 0.8s;
+  filter:brightness(0.75) saturate(0.9);
+}
+.showcase-img:hover img{transform:scale(1.05);filter:brightness(0.85) saturate(1)}
+.showcase-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(10,12,15,0.7) 100%);
+  pointer-events:none;
+}
+.showcase-img.tall{grid-row:span 2}
+.showcase-caption{
+  position:absolute;bottom:1rem;left:1.25rem;z-index:2;
+  font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(240,235,227,0.7);font-weight:400;
+}
+.showcase-caption span{
+  display:block;font-family:var(--font-display);font-size:1.1rem;
+  letter-spacing:0;text-transform:none;color:var(--cream);margin-top:0.15rem;
+}
+
+/* FULL-WIDTH IMAGE BREAK */
+.img-break{
+  position:relative;height:clamp(300px,40vh,500px);overflow:hidden;
+}
+.img-break img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(0.45) saturate(0.85);
+}
+.img-break-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,var(--bg) 0%,transparent 20%,transparent 80%,var(--bg) 100%);
+}
+.img-break-text{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  text-align:center;z-index:2;
+}
+.img-break-text blockquote{
+  font-family:var(--font-display);
+  font-size:clamp(1.5rem,3vw,2.5rem);
+  font-weight:300;font-style:italic;
+  color:rgba(240,235,227,0.85);
+  max-width:700px;line-height:1.4;
+  text-shadow:0 2px 20px rgba(0,0,0,0.5);
+}
+.img-break-text cite{
+  display:block;margin-top:0.75rem;
+  font-family:var(--font-body);font-size:0.72rem;
+  font-style:normal;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--gold);
+}
+
 /* RESPONSIVE */
 @media(max-width:1100px){
   .hero-stats{gap:2.5rem}
@@ -673,6 +738,8 @@ textarea.form-in{resize:vertical;min-height:95px;line-height:1.65}
   .footer-grid{grid-template-columns:1fr 1fr}
   .inq-page{grid-template-columns:1fr}
   .inq-left{display:none}
+  .showcase-grid{grid-template-columns:1fr 1fr;grid-template-rows:240px 240px 240px}
+  .showcase-img.tall{grid-row:span 1}
 }
 @media(max-width:768px){
   .nav-links,.nav-cta{display:none}
@@ -683,6 +750,7 @@ textarea.form-in{resize:vertical;min-height:95px;line-height:1.65}
   .cta-zip{flex-direction:column}
   .form-row-2{grid-template-columns:1fr}
   .svc-checks{grid-template-columns:1fr}
+  .showcase-grid{grid-template-columns:1fr;grid-template-rows:repeat(4,220px)}
 }
 @media(max-width:480px){
   .hero-actions{flex-direction:column}
@@ -874,6 +942,40 @@ textarea.form-in{resize:vertical;min-height:95px;line-height:1.65}
       </div>
     </div>
 
+    <!-- IMAGE SHOWCASE -->
+    <section class="showcase">
+      <div class="container">
+        <div class="reveal" style="text-align:center;margin-bottom:clamp(2rem,4vw,3.5rem)">
+          <div class="section-label" style="justify-content:center">Homes We Serve</div>
+          <h2 class="section-title">Trusted by homeowners across <em>Westchester</em></h2>
+        </div>
+        <div class="showcase-grid reveal-zoom">
+          <div class="showcase-img tall">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85&auto=format" alt="Luxury estate in Westchester" loading="lazy">
+            <div class="showcase-caption">Scarsdale, NY<span>Colonial Estate</span></div>
+          </div>
+          <div class="showcase-img">
+            <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=85&auto=format" alt="Modern luxury home" loading="lazy">
+            <div class="showcase-caption">Rye, NY<span>Waterfront Home</span></div>
+          </div>
+          <div class="showcase-img">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=85&auto=format" alt="Luxury home exterior" loading="lazy">
+            <div class="showcase-caption">Chappaqua, NY<span>Modern Farmhouse</span></div>
+          </div>
+          <div class="showcase-img">
+            <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=800&q=85&auto=format" alt="Luxury home interior" loading="lazy">
+            <div class="showcase-caption">Bronxville, NY<span>Tudor Revival</span></div>
+          </div>
+          <div class="showcase-img">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=85&auto=format" alt="Grand estate home" loading="lazy">
+            <div class="showcase-caption">Bedford, NY<span>Estate on 4 Acres</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="gradient-hr">
+
     <!-- HOW IT WORKS -->
     <section class="section" id="how-it-works">
       <div class="container">
@@ -930,6 +1032,18 @@ textarea.form-in{resize:vertical;min-height:95px;line-height:1.65}
         </div>
       </div>
     </section>
+
+    <!-- IMAGE BREAK -->
+    <div class="img-break">
+      <img src="https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=1920&q=80&auto=format" alt="Luxury home interior at dusk" loading="lazy">
+      <div class="img-break-overlay"></div>
+      <div class="img-break-text">
+        <div>
+          <blockquote>"A home this beautiful deserves maintenance that matches."</blockquote>
+          <cite>The Downkeep Standard</cite>
+        </div>
+      </div>
+    </div>
 
     <!-- MARQUEE -->
     <div class="marquee-sec">
